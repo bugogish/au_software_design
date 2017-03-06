@@ -19,9 +19,6 @@ import java.util.Scanner;
 public class Shell {
     private static boolean exitRequest = false;
 
-    /**
-     * Starts Shell and executes commands entered by user.
-     */
     public static void setExitRequest() {
         exitRequest = true;
     }
@@ -29,7 +26,11 @@ public class Shell {
     public static boolean getExitRequest() {
         return exitRequest;
     }
-
+    
+    /**
+     * Starts Shell and executes commands entered by user.
+     */
+    
     public void run() throws Exception {
         exitRequest = false;
         Scanner in = new Scanner(System.in);
