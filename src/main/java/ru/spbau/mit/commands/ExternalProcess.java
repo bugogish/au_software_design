@@ -17,7 +17,7 @@ public class ExternalProcess implements Command {
 
     /**
      * Tries to launch an external process and redirect to
-     * its InputStream it everything from the standard input,
+     * its InputStream everything from the standard input,
      * then redirects external processes's output to standard output.
      */
 
