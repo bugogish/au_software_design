@@ -12,7 +12,7 @@ public class PwdTest {
     @Test
     public void testPWD() throws Exception {
         String inStreamContent = "";
-        Command command = new Pwd(new ArrayList<String>());
+        Command command = new Pwd(new ArrayList<>());
         OutputStream out = command.run(new ByteArrayInputStream(inStreamContent.getBytes()));
 
         assertEquals(System.getProperty("user.dir"), out.toString());

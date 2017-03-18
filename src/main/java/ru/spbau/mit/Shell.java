@@ -1,14 +1,15 @@
 package ru.spbau.mit;
-import jdk.nashorn.internal.runtime.ParserException;
 import ru.spbau.mit.commands.*;
+import ru.spbau.mit.utils.CommandFactory;
+import ru.spbau.mit.utils.ParseException;
 import ru.spbau.mit.utils.Parser;
 import ru.spbau.mit.utils.RawCommandData;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
+
 
 /**
 * The {@code Shell} class controls the program workflow.
@@ -40,11 +41,13 @@ public class Shell {
 
         while (in.hasNextLine()) {
             String input = in.nextLine();
-            Queue<Command> commandQueue;
+            Queue<Command> commandQueue = new LinkedList<>();;
 
             try {
-                commandQueue = preprocess(parser.parse(input));
-            } catch (ParserException e) {
+                for (RawCommandData rawCommand : parser.parse(input)) {
+                    commandQueue.add(CommandFactory.getCommand(rawCommand));
+                }
+            } catch (ParseException e) {
                 System.out.println(e.getMessage());
                 continue;
             }
@@ -54,56 +57,24 @@ public class Shell {
                     outputStream = command.run(inputStream);
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
-                    continue;
+                    break;
                 }
                 if (exitRequest) {
                     break;
                 }
+
                 inputStream = new ByteArrayInputStream(((ByteArrayOutputStream) outputStream).toByteArray());
             }
+
             if (exitRequest) {
                 break;
             }
+
             if (outputStream != null) {
                 System.out.println((outputStream).toString());
             }
         }
 
         System.out.println("Goodbye!");
-    }
-
-    private Queue<Command> preprocess(Queue<RawCommandData> commands) {
-        Queue<Command> result = new LinkedList<>();
-
-        for (RawCommandData command : commands) {
-            switch (command.getCommandName()) {
-                case "cat":
-                    result.add(new Cat(command.getArguments()));
-                    break;
-                case "pwd":
-                    result.add(new Pwd(command.getArguments())); // pwd HELLO WORLD
-                    break;
-                case "echo":
-                    result.add(new Echo(command.getArguments()));
-                    break;
-                case "wc":
-                    result.add(new Wc(command.getArguments()));
-                    break;
-                case "Assignment":
-                    result.add(new Assignment(command.getArguments()));
-                    break;
-                case "exit":
-                    result.add(new Exit(command.getArguments()));
-                    break;
-                default:
-                    ArrayList<String> args = new ArrayList<>();
-                    args.add(command.getCommandName());
-                    args.addAll(command.getArguments());
-                    result.add(new ExternalProcess(args));
-                    break;
-            }
-        }
-
-        return result;
     }
 }

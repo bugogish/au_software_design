@@ -14,32 +14,23 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class CatTest {
-    @Test
+    @Test(expected=FileNotFoundException.class)
     public void testFileNonExistence() throws Exception {
         String filepath = "someFilenameThatDoesNotExist";
         Path path = Paths.get(filepath);
         ArrayList<String> args = new ArrayList<>();
         args.add(filepath);
         Command operation = new Cat(args);
-        boolean exception = false;
 
         if (Files.exists(path)) {
             fail();
         }
 
-        try {
-            operation.run(System.in);
-        } catch (Exception e) {
-            if (e instanceof FileNotFoundException) {
-                exception = true;
-            }
-        }
-
-        assertTrue(exception);
+        operation.run(System.in);
     }
 
     @Test
-    public void testFromFile() throws Exception {
+    public void testReadingFromFile() throws Exception {
         String filepath = "someFilename";
         String fileContent = "test\ntestTEST";
         Path path = Paths.get(filepath);
@@ -54,18 +45,18 @@ public class CatTest {
 
         ByteArrayOutputStream out = (ByteArrayOutputStream) command.run(System.in);
 
-        assertTrue(out.toString().equals(fileContent));
+        assertEquals(fileContent, out.toString());
 
         Files.delete(path);
     }
 
     @Test
-    public void testFromStream() throws Exception {
+    public void testReadingFromStream() throws Exception {
         String streamContent = "test\ntestTEST";
 
         Command operation = new Cat(new ArrayList<String>());
         OutputStream out = operation.run(new ByteArrayInputStream(streamContent.getBytes()));
 
-        assertTrue(out.toString().equals(streamContent));
+        assertEquals(streamContent, out.toString());
     }
 }

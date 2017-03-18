@@ -1,6 +1,5 @@
 package ru.spbau.mit.utils;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -106,7 +105,7 @@ public class Parser {
         String[] nameAndArgs = command.split("=");
 
         if (nameAndArgs.length != 2) {
-            throw new ParseException("Wrong assignment format.", 0);
+            throw new ParseException("Wrong assignment format.");
         }
         rawCommand.setCommandName("Assignment");
         rawCommand.addArgument(nameAndArgs[0]);
@@ -163,7 +162,7 @@ public class Parser {
                         }
                         String value = environment.getVarValue(substitutionKey.toString());
                         if (value == null) {
-                            throw new ParseException(substitutionKey + " value is not set.", i);
+                            throw new ParseException(substitutionKey + " value is not set.");
                         }
                         result.append(value);
                         if (command.charAt(i) == '\'') {
@@ -179,7 +178,7 @@ public class Parser {
                         String value =
                                 environment.getVarValue(substitutionKey.toString());
                         if (value == null) {
-                            throw new ParseException(substitutionKey + " value is not set.", i);
+                            throw new ParseException(substitutionKey + " value is not set.");
                         }
                         result.append(value);
                         if (Character.isWhitespace(command.charAt(i)) || command.charAt(i) == '\'') {
@@ -200,7 +199,7 @@ public class Parser {
         }
         if (state != ParserState.BEGIN) {
             throw new ParseException("The specified expression has wrong format"
-                    + " (Probably, mismatched brackets).", 0);
+                    + " (Probably, mismatched brackets).");
         }
         return result.toString();
     }

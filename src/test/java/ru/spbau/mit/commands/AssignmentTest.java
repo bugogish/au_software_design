@@ -5,11 +5,12 @@ import ru.spbau.mit.utils.Environment;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class AssignmentTest {
     @Test
-    public void testAssignment() throws Exception {
+    public void testCorrectAssignment() throws Exception {
         ArrayList<String> args = new ArrayList<>();
         args.add("x");
         args.add("5");
@@ -17,6 +18,6 @@ public class AssignmentTest {
         command.run(System.in);
 
         Environment environment = Environment.getInstance();
-        assertTrue(environment.getVarValue("x").equals("5"));
+        assertEquals("5", environment.getVarValue("x"));
     }
 }

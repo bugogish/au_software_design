@@ -16,7 +16,7 @@ public class RawCommandData {
      * returns this RawCommand's name
      */
 
-    public String getCommandName() {
+    String getCommandName() {
         return commandName;
     }
 
@@ -32,7 +32,7 @@ public class RawCommandData {
      * returns this RawCommand's arguments
      */
 
-    public ArrayList<String> getArguments() {
+    ArrayList<String> getArguments() {
         return arguments;
     }
 }

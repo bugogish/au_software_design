@@ -22,7 +22,7 @@ public class WcTest {
     }
 
     @Test
-    public void fileTest() throws Exception {
+    public void countFromFileTest() throws Exception {
         String filepath = "someFilename";
         String fileContent = "test\ntestTEST";
         Path path = Paths.get(filepath);
@@ -43,10 +43,10 @@ public class WcTest {
     }
 
     @Test
-    public void inStreamTest() throws Exception {
+    public void countFromInStreamTest() throws Exception {
         String streamContent = "test\ntestTEST";
 
-        Command operation = new Wc(new ArrayList<String>());
+        Command operation = new Wc(new ArrayList<>());
         OutputStream out = operation.run(new ByteArrayInputStream(streamContent.getBytes()));
 
         assertEquals(correctResult(streamContent), out.toString());

@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class EchoTest {
@@ -18,6 +19,6 @@ public class EchoTest {
         Command operation = new Echo(args);
         OutputStream out = operation.run(System.in);
 
-        assertTrue(out.toString().equals("test test1 test2 TEST"));
+        assertEquals("test test1 test2 TEST", out.toString());
     }
 }
