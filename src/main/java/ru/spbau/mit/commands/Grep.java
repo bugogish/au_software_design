@@ -44,7 +44,7 @@ public class Grep implements Command {
     }
 
     /**
-     *
+     * Runs grep command
      * @param in - command's standard input
      * @return output stream that contains lines with match for user-specified pattern
      * @throws IOException - if -f key was provided, but interacting with file throwed IOException or if
@@ -112,8 +112,6 @@ public class Grep implements Command {
         } else {
             p = Pattern.compile(userPattern);
         }
-
-        System.out.println(p);
 
         return p;
     }
