@@ -1,10 +1,12 @@
 package ru.spbau.mit.utils;
 
+import org.jetbrains.annotations.NotNull;
 import ru.spbau.mit.commands.*;
 
 import java.util.ArrayList;
 
 public class CommandFactory {
+    @NotNull
     public static Command getCommand(RawCommandData rawCommand) {
         switch (rawCommand.getCommandName()) {
             case "cat":
@@ -19,6 +21,8 @@ public class CommandFactory {
                 return new Assignment(rawCommand.getArguments());
             case "exit":
                 return new Exit(rawCommand.getArguments());
+            case "grep":
+                return new Grep(rawCommand.getArguments());
             default:
                 ArrayList<String> args = new ArrayList<>();
                 args.add(rawCommand.getCommandName());
