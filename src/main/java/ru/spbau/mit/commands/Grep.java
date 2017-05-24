@@ -127,7 +127,7 @@ public class Grep implements Command {
         Matcher  m = p.matcher(line);
         while (m.find()) {
             String found = m.group();
-            line = line.replace(found, highlight(found));
+            line = m.replaceFirst(highlight(found));
         }
         return line;
     }
@@ -138,7 +138,7 @@ public class Grep implements Command {
      * @return - highlighted string
      */
     @NotNull
-    String highlight(@Nullable String toHighlight) {
+    static String highlight(@Nullable String toHighlight) {
        final String ANSI_RED = "\u001B[31m";
        final String ANSI_RESET = "\u001B[0m";
        return ANSI_RED + toHighlight + ANSI_RESET;
