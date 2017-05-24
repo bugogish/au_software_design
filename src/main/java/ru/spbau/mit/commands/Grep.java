@@ -80,15 +80,20 @@ public class Grep implements Command {
     @NotNull
     private Pattern getPatternFromUserSettings() {
         Pattern p;
+        System.out.println(pattern.size());
+        pattern.forEach(System.out::println);
+        String userPattern = String.join(" ", pattern);
 
         if (wholeWords) {
-            pattern.set(0, "\\b" + pattern.get(0) + "\\b");
+            userPattern = "\\b" + userPattern + "\\b";
         }
         if (caseInsensitive) {
-            p = Pattern.compile(pattern.get(0), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+            p = Pattern.compile(userPattern, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
         } else {
-            p = Pattern.compile(pattern.get(0));
+            p = Pattern.compile(userPattern);
         }
+
+        System.out.println(p);
 
         return p;
     }

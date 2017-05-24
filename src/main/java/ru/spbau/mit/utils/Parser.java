@@ -1,5 +1,7 @@
 package ru.spbau.mit.utils;
 
+import sun.tools.jstat.ParserException;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -89,10 +91,13 @@ public class Parser {
         return splitted;
     }
 
-    private RawCommandData parseCommand(String command) {
+    private RawCommandData parseCommand(String command) throws ParseException {
         RawCommandData rawCommand = new RawCommandData();
         ArrayList<String> nameAndArgs = splitInput(command);
 
+        if (nameAndArgs.isEmpty()) {
+            throw new ParseException("Input is empty.");
+        }
         rawCommand.setCommandName(nameAndArgs.get(0));
         nameAndArgs.remove(0);
         rawCommand.getArguments().addAll(nameAndArgs);
