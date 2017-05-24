@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The {@code Grep} class implements the command that prints lines that contain match for a user-specified pattern.
+ */
+
 public class Grep implements Command {
     private final List<String> arguments;
     private final Environment environment = Environment.getInstance();
@@ -39,6 +43,13 @@ public class Grep implements Command {
         arguments = args;
     }
 
+    /**
+     *
+     * @param in - command's standard input
+     * @return output stream that contains lines with match for user-specified pattern
+     * @throws IOException - if -f key was provided, but interacting with file throwed IOException or if
+     * an exception working with IOStreams occurred
+     */
     @Override
     public OutputStream run(InputStream in) throws IOException {
         parseArgs();
@@ -55,6 +66,11 @@ public class Grep implements Command {
         return out;
     }
 
+    /**
+     *
+     * @param text - text to search pattern in
+     * @return List of matches for the pattern in text (and @code{numLinesAfterMatch} lines after each match)
+     */
     private List<String> grep(String text) {
         List<String> result = new ArrayList<>();
         String[] lines = text.split("\\r\\n|\\r|\\n");
@@ -77,11 +93,15 @@ public class Grep implements Command {
         return result;
     }
 
+    /**
+     * Compiles a pattern by following rules:
+     * 1. If @code{caseInsensitive} is true then compiles a pattern with flags CASE_INSENSITIVE and UNICODE_CASE
+     * 2. If @code{wholeWords} is true then surrounds user-specified pattern with "\\b"
+     * @return Java Pattern compiled from user pattern by rules above
+     */
     @NotNull
     private Pattern getPatternFromUserSettings() {
         Pattern p;
-        System.out.println(pattern.size());
-        pattern.forEach(System.out::println);
         String userPattern = String.join(" ", pattern);
 
         if (wholeWords) {
@@ -98,6 +118,12 @@ public class Grep implements Command {
         return p;
     }
 
+    /**
+     *
+     * @param p - Pattern to look for in line
+     * @param line - line to search pattern in
+     * @return - line with highlighted match
+     */
     @NotNull
     private String grepInLine(Pattern p, String line) {
         Matcher  m = p.matcher(line);
@@ -108,11 +134,22 @@ public class Grep implements Command {
         return line;
     }
 
+    /**
+     * Determines a way to highlight string
+     * @param toHighlight - string to apply highlighting to
+     * @return - highlighted string
+     */
     @NotNull
     private String highlight(@Nullable String toHighlight) {
         return "-> " + toHighlight + " <-";
     }
 
+    /**
+     * Function to get text to apply grep to. If -f key was provided so @code{file} is not null, then reads text from
+     * file, otherwise gets text from Command's standard input
+     * @param in - Command's standard input
+     * @return - text from file or standard input
+     */
     private String getText(InputStream in) throws IOException {
         if (file != null) {
             return FileUtils.readFileToString(file);
@@ -123,6 +160,9 @@ public class Grep implements Command {
         }
     }
 
+    /**
+     * Parses @code{arguments}
+     */
     private void parseArgs() throws IOException {
         JCommander jc = JCommander.newBuilder()
                 .addObject(this)
