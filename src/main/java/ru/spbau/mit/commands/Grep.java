@@ -138,7 +138,7 @@ public class Grep implements Command {
      * @return - highlighted string
      */
     @NotNull
-    private String highlight(@Nullable String toHighlight) {
+    String highlight(@Nullable String toHighlight) {
        final String ANSI_RED = "\u001B[31m";
        final String ANSI_RESET = "\u001B[0m";
        return ANSI_RED + toHighlight + ANSI_RESET;
